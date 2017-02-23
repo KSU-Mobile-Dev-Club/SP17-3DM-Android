@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':min3ds'
+project(':min3ds').projectDir = new File('min3d')

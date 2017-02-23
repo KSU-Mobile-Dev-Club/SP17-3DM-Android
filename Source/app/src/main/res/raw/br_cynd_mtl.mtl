@@ -1,0 +1,90 @@
+# Blender MTL File: 'BR_Cyndaquil.blend'
+# Material Count: 8
+
+newmtl mat_0
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_0.png
+map_d hinoarashi_0_0.png
+
+newmtl mat_1
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_1.png
+map_d hinoarashi_0_1.png
+
+newmtl mat_2
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_2.png
+map_d hinoarashi_0_2.png
+
+newmtl mat_3
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_3.png
+map_d hinoarashi_0_3.png
+
+newmtl mat_4
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_4.png
+map_d hinoarashi_0_4.png
+
+newmtl mat_5
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_5.png
+map_d hinoarashi_0_5.png
+
+newmtl mat_6
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_6.png
+map_d hinoarashi_0_6.png
+
+newmtl mat_7
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd hinoarashi_0_7.png
+map_d hinoarashi_0_7.png
