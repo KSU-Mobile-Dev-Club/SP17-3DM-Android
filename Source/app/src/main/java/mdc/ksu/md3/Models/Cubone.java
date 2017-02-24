@@ -1,8 +1,8 @@
 package mdc.ksu.md3.Models;
 
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
 
+import mdc.ksu.md3.Model;
 import mdc.ksu.md3.Utils.MD3Logger;
 
 /**

@@ -14,7 +14,7 @@ import mdc.ksu.md3.Models.Cubone;
 import mdc.ksu.md3.Models.Cyndaquil;
 import mdc.ksu.md3.Models.eAnimations;
 import mdc.ksu.md3.Utils.MD3Logger;
-import mdc.ksu.md3.Models.Model;
+import mdc.ksu.md3.Model;
 import mdc.ksu.md3.R;
 import min3d.core.RendererActivity;
 import min3d.vos.Light;
