@@ -12,15 +12,15 @@ import mdc.ksu.md3.ModelBase;
 import mdc.ksu.md3.R;
 import mdc.ksu.md3.Utils.MD3Logger;
 
-public class Cubone extends ModelBase
+public class Throh extends ModelBase
 {
-    public final static String TAG = Cubone.class.getSimpleName();
+    public final static String TAG = Throh.class.getSimpleName();
 
-    public Cubone()
+    public Throh()
     {
         super();
-        mObjectResource = R.raw.cubone_obj;
-        mScaleX = mScaleY = mScaleZ = .03f;
+        mObjectResource = R.raw.throh_obj;
+        mScaleX = mScaleY = mScaleZ = .1f;
         MD3Logger.LogInfo(TAG, TAG, TAG + " class instantiated");
     }
 
@@ -35,7 +35,7 @@ public class Cubone extends ModelBase
         switch (mCurrentAnimation)
         {
             case ROTATE_LEFT:
-                mAnimation = new RotateOnAxisAnimation(Vector3.Axis.Y, 0, -360);
+                mAnimation = new RotateOnAxisAnimation(Vector3.Axis.Y, -360);
                 mAnimation.setDurationMilliseconds(4000);
                 mAnimation.setTransformable3D(mObject);
                 mAnimation.setRepeatMode(Animation.RepeatMode.INFINITE);
@@ -97,8 +97,8 @@ public class Cubone extends ModelBase
             mMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
             mMaterial.setColor(0);
 
-            Texture text1 = new Texture("Earth", R.drawable.pm0104_00_body1);
-            Texture text2 = new Texture("Earth", R.drawable.pm0104_00_eye1);
+            Texture text1 = new Texture("Earth", R.drawable.throh1);
+            Texture text2 = new Texture("Earth", R.drawable.throh2);
 
             mMaterial.addTexture(text1);
             mMaterial.addTexture(text2);

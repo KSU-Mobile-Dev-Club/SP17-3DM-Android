@@ -4,26 +4,16 @@ import android.app.Application;
 
 import com.parse.Parse;
 
-/**
- * Created by amgregoi on 2/23/17.
- */
-
 public class MD3Application extends Application
 {
 
     private static MD3Application aInstance;
 
-    /***
-     * TODO..
-     */
     public MD3Application()
     {
         aInstance = this;
     }
 
-    /***
-     * TODO..
-     */
     @Override
     public void onCreate()
     {
@@ -34,10 +24,6 @@ public class MD3Application extends Application
 
     }
 
-    /***
-     * TODO..
-     * @return
-     */
     public static synchronized MD3Application getInstance()
     {
         return aInstance;

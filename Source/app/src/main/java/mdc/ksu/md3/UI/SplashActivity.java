@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.parse.ParseUser;
+
 public class SplashActivity extends AppCompatActivity
 {
 
@@ -21,9 +23,19 @@ public class SplashActivity extends AppCompatActivity
     {
         public void run()
         {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            //TODO.. remove TRUE when parse implemented
+            if (true || ParseUser.getCurrentUser().isAuthenticated())
+            {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else
+            {
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     };
 }

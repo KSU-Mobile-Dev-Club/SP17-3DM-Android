@@ -1,142 +1,113 @@
 package mdc.ksu.md3.UI;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.rajawali3d.surface.IRajawaliSurface;
+import org.rajawali3d.surface.RajawaliSurfaceView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import mdc.ksu.md3.Models.Cubone;
-import mdc.ksu.md3.Models.Cyndaquil;
-import mdc.ksu.md3.Models.eAnimations;
-import mdc.ksu.md3.Utils.MD3Logger;
-import mdc.ksu.md3.Model;
+import mdc.ksu.md3.Enums.eAnimations;
+import mdc.ksu.md3.Enums.ePokemon;
 import mdc.ksu.md3.R;
-import min3d.core.RendererActivity;
-import min3d.vos.Light;
+import mdc.ksu.md3.Utils.MD3Logger;
 
-public class MainActivity extends RendererActivity
+public class MainActivity extends AppCompatActivity
 {
     public final static String TAG = MainActivity.class.getSimpleName();
+    private Renderer mRenderer;
+    private boolean mInit = false;
 
     @BindView(R.id.model_object) RelativeLayout mModelArea;
-    @BindView(R.id.freeze_models) Button mFreezeButton;
+    @BindView(R.id.model_spinner) Spinner mModelSpinner;
+    @BindView(R.id.animation_spinner) Spinner mAnimationSpinner;
 
-    private List<Model> mModelList;
-
-    /***
-     * This function is called when the activity is created
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initSpinners();
 
-        mModelList = new ArrayList<>();
-        mModelArea.addView(_glSurfaceView);
+        /***
+         * Render stuffs
+         */
+        final RajawaliSurfaceView surface = new RajawaliSurfaceView(this);
+        surface.setFrameRate(60.0);
+        surface.setRenderMode(IRajawaliSurface.RENDERMODE_WHEN_DIRTY);
+
+        mRenderer = new Renderer(this);
+        surface.setSurfaceRenderer(mRenderer);
+        mModelArea.addView(surface);
+    }
+
+    @OnClick(R.id.plus)
+    public void zoomin()
+    {
+        mRenderer.zoomIn();
+    }
+
+    @OnClick(R.id.minus)
+    public void zoomout()
+    {
+        mRenderer.zoomOut();
     }
 
     /***
-     * This function intializes the scene of your RenderActivity
+     * This function initializes the drop down spinners listing the models and animations
      */
-    @Override
-    public void initScene()
+    public void initSpinners()
     {
-        MD3Logger.LogInfo(TAG, "initScene", "starting initScene()");
 
-        //Add light to the 'scene'
-        scene.lights().add(new Light());
-        scene.lights().add(new Light());
+        // Create an ArrayAdapter using the string array and a default spinner
+        String[] enumNames = ePokemon.getStringArray();
 
-        /**
-         * Build Cubone(1) Model
-         */
-        Model mCubone1 = new Cubone(getResources(), "xy_cubone_obj", -.6f, 0f, 0f);
-        mModelList.add(mCubone1);
-
-        /**
-         * Build Cubone(2) Model
-         */
-        Model mCubone2 = new Cubone(getResources(), "xy_cubone_obj", .6f, 0f, 0f);
-        mModelList.add(mCubone2);
-
-        /**
-         * Build Cyndaquil Model
-         */
-        Model mCyndaquil = new Cyndaquil(getResources(), "br_cynd_obj", 0f, -2f, -.5f, .3f, .3f, .3f);
-        mCyndaquil.mObject.rotation().x = 100f;         //Change initial x orientation
-        mCyndaquil.mObject.rotation().z = 70f;          //Change initial z orientation
-        mCyndaquil.setAnimation(eAnimations.TACKLE);    //Changes initial animation
-        mModelList.add(mCyndaquil);
-
-        /**
-         * Add Models to scene
-         */
-        scene.addChild(mCubone1.mObject);
-        scene.addChild(mCubone2.mObject);
-        scene.addChild(mCyndaquil.mObject);
-
-        MD3Logger.LogInfo(TAG, "initScene", "ending initScene()");
-    }
-
-    /**
-     * Updates the current scene
-     * Currently rotates the model around the y-axis
-     */
-    int count = 0;
-
-    @Override
-    public void updateScene()
-    {
-        for (Model iObject : mModelList)
+        final ArrayAdapter<String> lModelAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, enumNames);
+        lModelAdapter.setDropDownViewResource(R.layout.spinner_item_drop);
+        mModelSpinner.setAdapter(lModelAdapter);
+        mModelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
-            iObject.doAnimation();
-        }
-        MD3Logger.LogDebug(TAG, "updateScene", "updated scene");
-
-    }
-
-    /***
-     * This function sets the models to rotate left
-     */
-    @OnClick(R.id.switch_animations)
-    public void switchAnimations()
-    {
-        MD3Logger.LogInfo(TAG, "switchAnimations", "switching model animations");
-        for (Model iObject : mModelList)
-        {
-            iObject.setNextAnimation();
-        }
-    }
-
-    /***
-     * This function sets the models to rotate right
-     */
-    @OnClick(R.id.freeze_models)
-    public void freezeModels()
-    {
-        MD3Logger.LogInfo(TAG, "freezeModels", "Halting rotation of models");
-        for (Model iObject : mModelList)
-        {
-            if (iObject.mCurrentAnimation == eAnimations.FREEZE)
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                iObject.setAnimation(iObject.mLastAnimation);
-                mFreezeButton.setText("Freeze");
+                if(mInit){
+                    String lModelType = (String) parent.getItemAtPosition(position);
+                    MD3Logger.LogInfo(TAG, "ModelSpinner.setOnItemSelected", lModelType + " selected");
+                    mRenderer.createNewModel(lModelType, mAnimationSpinner.getSelectedItem().toString());
+                }else{
+                    mInit = true;
+                }
             }
-            else
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        enumNames = eAnimations.getStringArray();
+
+        ArrayAdapter<String> lAnimationAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, enumNames);
+        lAnimationAdapter.setDropDownViewResource(R.layout.spinner_item_drop);
+        mAnimationSpinner.setAdapter(lAnimationAdapter);
+        mAnimationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                iObject.setAnimation(eAnimations.FREEZE);
-                mFreezeButton.setText("Resume");
+                String lAnimation = (String) parent.getItemAtPosition(position);
+                MD3Logger.LogInfo(TAG, "ModelSpinner.setOnItemSelected", lAnimation + " selected");
+                mRenderer.changeAnimation(lAnimation);
             }
-        }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 }
-

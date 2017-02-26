@@ -1,29 +1,26 @@
 package mdc.ksu.md3.Models;
 
-import android.content.res.Resources;
+import org.rajawali3d.animation.Animation;
+import org.rajawali3d.animation.RotateAnimation3D;
+import org.rajawali3d.animation.RotateOnAxisAnimation;
+import org.rajawali3d.materials.Material;
+import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.textures.Texture;
+import org.rajawali3d.math.vector.Vector3;
 
-import mdc.ksu.md3.Model;
+import mdc.ksu.md3.ModelBase;
+import mdc.ksu.md3.R;
 import mdc.ksu.md3.Utils.MD3Logger;
 
-/**
- * Created by amgregoi on 2/23/17.
- */
-
-public class Cyndaquil extends Model
+public class Cyndaquil extends ModelBase
 {
-    public Cyndaquil(Resources aRes, String aFile)
-    {
-        super(aRes, aFile);
-    }
+    public final static String TAG = Cyndaquil.class.getSimpleName();
 
-    public Cyndaquil(Resources aRes, String aFile, float aPosX, float aPosY, float aPosZ)
+    public Cyndaquil()
     {
-        super(aRes, aFile, aPosX, aPosY, aPosZ);
-    }
-
-    public Cyndaquil(Resources aRes, String aFile, float aPosX, float aPosY, float aPosZ, float aScaleX, float aScaleY, float aScaleZ)
-    {
-        super(aRes, aFile, aPosX, aPosY, aPosZ, aScaleX, aScaleY, aScaleZ);
+        super();
+        mObjectResource = R.raw.cynd_obj;
+        mScaleX = mScaleY = mScaleZ = .3f;
     }
 
     /***
@@ -31,23 +28,36 @@ public class Cyndaquil extends Model
      *
      * @return
      */
-    @Override public boolean doAnimation()
+    @Override public boolean setAnimation()
     {
         switch (mCurrentAnimation)
         {
             case ROTATE_LEFT:
-                rotateLeft();
+                mAnimation = new RotateOnAxisAnimation(Vector3.Axis.Y, -360);
+                mAnimation.setDurationMilliseconds(4000);
+                mAnimation.setTransformable3D(mObject);
+                mAnimation.setRepeatMode(Animation.RepeatMode.INFINITE);
                 break;
             case ROTATE_RIGHT:
-                rotateRight();
+                mAnimation = new RotateOnAxisAnimation(Vector3.Axis.Y, 360);
+                mAnimation.setDurationMilliseconds(4000);
+                mAnimation.setTransformable3D(mObject);
+                mAnimation.setRepeatMode(Animation.RepeatMode.INFINITE);
                 break;
-            case TACKLE:
-                tackle();
+            case FEINT:
+                mAnimation = new RotateAnimation3D(30, 60, 90);
+                mAnimation.setDurationMilliseconds(1300);
+                mAnimation.setDelayDelta(1);
+                mAnimation.setTransformable3D(mObject);
+                mAnimation.setRepeatMode(Animation.RepeatMode.INFINITE);
                 break;
+            case MANUAL:
             case FREEZE:
+                setCurrentValues();
+                mAnimation = null;
                 break;
             default:
-                MD3Logger.LogWarn("Cyndaquil", "doAnimation", "Animation not implemented: " + mCurrentAnimation);
+                MD3Logger.LogWarn(TAG, "setAnimation", "Animation not implemented: " + mCurrentAnimation);
                 break;
         }
         return false;
@@ -65,8 +75,8 @@ public class Cyndaquil extends Model
         {
             case ROTATE_LEFT:
             case ROTATE_RIGHT:
-            case TACKLE:
             case FREEZE:
+            case FEINT:
                 return true;
             default:
                 return false;
@@ -74,42 +84,42 @@ public class Cyndaquil extends Model
     }
 
     /***
-     * this function rotates the model to the left
+     * This function sets the objects material
      */
-    private void rotateLeft()
+    @Override
+    public void setMaterial()
     {
-        mObject.rotation().z += -1.5;
-
-    }
-
-    /***
-     * this function rotates the model to the right
-     */
-    private void rotateRight()
-    {
-        mObject.rotation().z += 1.5;
-    }
-
-    //Variable to track tackle timing
-    int count = 0;
-
-    /***
-     * This function simulates a simple 'Tackle' animation
-     */
-    public void tackle()
-    {
-        count++;
-        if (count == 1)
+        try
         {
-            mObject.position().x += .5;
+            mMaterial = new Material();
+            mMaterial.enableLighting(true);
+            mMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+            mMaterial.setColor(0);
+
+            Texture text1 = new Texture("Earth", R.drawable.hinoarashi_0_0);
+            Texture text2 = new Texture("Earth", R.drawable.hinoarashi_0_1);
+            Texture text3 = new Texture("Earth", R.drawable.hinoarashi_0_2);
+            Texture text4 = new Texture("Earth", R.drawable.hinoarashi_0_3);
+            Texture text5 = new Texture("Earth", R.drawable.hinoarashi_0_4);
+            Texture text6 = new Texture("Earth", R.drawable.hinoarashi_0_5);
+            Texture text7 = new Texture("Earth", R.drawable.hinoarashi_0_6);
+            Texture text8 = new Texture("Earth", R.drawable.hinoarashi_0_7);
+
+            mMaterial.addTexture(text1);
+            mMaterial.addTexture(text2);
+            mMaterial.addTexture(text3);
+            mMaterial.addTexture(text4);
+            mMaterial.addTexture(text5);
+            mMaterial.addTexture(text6);
+            mMaterial.addTexture(text7);
+            mMaterial.addTexture(text8);
+
         }
-        else if (count == 50)
+        catch (Exception aEx)
         {
-            mObject.position().x += -.5;
+            aEx.printStackTrace();
         }
-        else if (count == 100)
-        {
-            count = 0;
-        }
+
+        mObject.setMaterial(mMaterial);
     }
 }
