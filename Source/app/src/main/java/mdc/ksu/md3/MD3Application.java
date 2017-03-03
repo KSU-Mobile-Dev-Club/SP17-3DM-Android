@@ -22,14 +22,12 @@ public class MD3Application extends Application
     {
         super.onCreate();
 
-        //TODO.. Insert Parse Info
-        // APP_ID, CLIENT_ID
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                                 .applicationId(getString(R.string.APP_KEY))
-                                 .clientKey(getString(R.string.CLIENT_KEY))
-                                 .server(getString(R.string.SERVER_KEY)) // The trailing slash is important.
-                                 .build()
-        );
+        Parse.Configuration.Builder lBuilder = new Parse.Configuration.Builder(this);
+        lBuilder.applicationId(getString(R.string.APP_KEY));
+        lBuilder.server(getString(R.string.SERVER_KEY));
+        lBuilder.enableLocalDataStore();
+
+        Parse.initialize(lBuilder.build());
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();

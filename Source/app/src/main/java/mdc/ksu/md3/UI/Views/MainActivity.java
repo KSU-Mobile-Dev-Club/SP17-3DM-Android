@@ -1,12 +1,19 @@
 package mdc.ksu.md3.UI.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+
+import com.parse.ParseUser;
 
 import org.rajawali3d.surface.IRajawaliSurface;
 import org.rajawali3d.surface.RajawaliSurfaceView;
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         mRenderer = new Renderer(this);
         surface.setSurfaceRenderer(mRenderer);
         mModelArea.addView(surface);
+
     }
 
     @OnClick(R.id.plus)
@@ -79,11 +87,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                if(mInit){
+                if (mInit)
+                {
                     String lModelType = (String) parent.getItemAtPosition(position);
                     MD3Logger.LogInfo(TAG, "ModelSpinner.setOnItemSelected", lModelType + " selected");
                     mRenderer.createNewModel(lModelType, mAnimationSpinner.getSelectedItem().toString());
-                }else{
+                }
+                else
+                {
                     mInit = true;
                 }
             }
@@ -111,4 +122,55 @@ public class MainActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
+    /***
+     * TODO..
+     *
+     * @param aMenu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu aMenu)
+    {
+
+        getMenuInflater().inflate(R.menu.menu, aMenu);
+        return true;
+    }
+
+    /***
+     * TODO..
+     *
+     * @param aMenuItem
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem aMenuItem)
+    {
+        int lId = aMenuItem.getItemId();
+        if (lId == R.id.logout)
+        {
+            ParseUser.logOut();
+
+            Intent lIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(lIntent);
+        }
+
+        return super.onOptionsItemSelected(aMenuItem);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        boolean lSuccess = true;
+        if (item.getTitle() == "Logout")
+        {
+            ParseUser.getCurrentUser().logOut();
+        }
+        else
+        {
+            lSuccess = false;
+        }
+        return lSuccess;
+    }
+
 }

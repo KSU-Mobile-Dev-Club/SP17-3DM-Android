@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -33,17 +34,13 @@ public class LoginActivity extends AppCompatActivity
     @OnClick(R.id.sign_in)
     public void signInButton()
     {
-        //TODO.. Verify parse stuff works when backend is up
-//        parseSignIn();
-        startMainActivity();
+        parseSignIn();
     }
 
     @OnClick(R.id.sign_up)
     public void signUpButton()
     {
-        //TODO.. Verify parse stuff works when backend is up
-//        parseSignUp();
-        startMainActivity();
+        parseSignUp();
     }
 
     private void startMainActivity()
@@ -55,22 +52,31 @@ public class LoginActivity extends AppCompatActivity
 
     private void parseSignIn()
     {
-        ParseUser.logInInBackground(mUserName.getText().toString(), mPassword.getText().toString(),
-                                    new LogInCallback()
-                                    {
-                                        public void done(ParseUser user, ParseException e)
+        if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser()))
+        {
+            startMainActivity();
+        }
+        else
+        {
+            String lUsername = mUserName.getText().toString();
+            String lPassword = mPassword.getText().toString();
+            ParseUser.logInInBackground(lUsername, lPassword,
+                                        new LogInCallback()
                                         {
-                                            if (user != null)
+                                            public void done(ParseUser user, ParseException e)
                                             {
-                                                startMainActivity();
+                                                if (user != null)
+                                                {
+                                                    startMainActivity();
+                                                }
+                                                else
+                                                {
+                                                    sendToast("No such user exist, please signup");
+                                                    e.printStackTrace();
+                                                }
                                             }
-                                            else
-                                            {
-                                                sendToast("No such user exist, please signup");
-                                            }
-                                        }
-                                    });
-
+                                        });
+        }
     }
 
     private void parseSignUp()
@@ -106,7 +112,8 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
-    private void sendToast(String aMessage){
+    private void sendToast(String aMessage)
+    {
         Toast.makeText(getApplicationContext(), aMessage, Toast.LENGTH_LONG).show();
     }
 

@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity
     {
         public void run()
         {
-            //TODO.. remove TRUE when parse implemented
+            //TODO.. switch with ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser() when login is working
             if (ParseUser.getCurrentUser().isAuthenticated())
             {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
