@@ -1,4 +1,4 @@
-package mdc.ksu.md3.UI;
+package mdc.ksu.md3.UI.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ public class SplashActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         new Handler().postDelayed(gotoLoginActivity, 2000);
 
     }
@@ -24,7 +23,7 @@ public class SplashActivity extends AppCompatActivity
         public void run()
         {
             //TODO.. remove TRUE when parse implemented
-            if (true || ParseUser.getCurrentUser().isAuthenticated())
+            if (ParseUser.getCurrentUser().isAuthenticated())
             {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);

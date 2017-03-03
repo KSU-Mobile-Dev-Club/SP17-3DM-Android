@@ -40,19 +40,19 @@ public class Renderer extends RajawaliRenderer implements OnFPSUpdateListener, O
         setFPSUpdateListener(this);
 
         mPokemon = new Cubone(); //Default model
-        mPokemon.mCurrentAnimation = eAnimations.MANUAL;
+        mPokemon.mCurrentAnimation = eAnimations.ROTATE_LEFT;
 
     }
 
     public void onOffsetsChanged(float x, float y, float z, float w, int i, int j)
     {
-        MD3Logger.LogInfo("Renderer", "onTouchEvent", "Offsets were changed");
+        MD3Logger.LogInfo(TAG, "onTouchEvent", "Offsets were changed");
     }
 
     @Override
     public void onTouchEvent(MotionEvent event)
     {
-        MD3Logger.LogInfo("Renderer", "onTouchEvent", "Event: " + event.toString());
+        MD3Logger.LogInfo(TAG, "onTouchEvent", "Event: " + event.toString());
     }
 
     /***
@@ -132,14 +132,13 @@ public class Renderer extends RajawaliRenderer implements OnFPSUpdateListener, O
             mPokemon = (ModelBase) constructor.newInstance();
             mPokemon.mCurrentAnimation = eAnimations.valueOf(aAnim);
             mPokemon.setAnimation();
-            MD3Logger.LogInfo("Renderer", "initScene", "selected class was: " + clazz.getSimpleName());
+            MD3Logger.LogInfo(TAG, "createNewModel", "selected class was: " + clazz.getSimpleName());
 
             initScene(); //re-inits scene with new model
-
         }
         catch (Exception e)
         {
-            MD3Logger.LogInfo("Renderer", "initScene", "failed to intialize model class: " + aModel);
+            MD3Logger.LogInfo(TAG, "initScene", "failed to intialize model class: " + aModel);
         }
     }
 
@@ -166,8 +165,8 @@ public class Renderer extends RajawaliRenderer implements OnFPSUpdateListener, O
             getCurrentScene().registerAnimation(mPokemon.mAnimation);
             mPokemon.mAnimation.play();
         }
-        MD3Logger.LogInfo("Renderer", "changeAnimation", "num children###### : " + getCurrentScene().getNumChildren());
-        MD3Logger.LogInfo("Renderer", "changeAnimation", "Changing animation to: " + aAnimation);
+        MD3Logger.LogInfo(TAG, "changeAnimation", "num children###### : " + getCurrentScene().getNumChildren());
+        MD3Logger.LogInfo(TAG, "changeAnimation", "Changing animation to: " + aAnimation);
     }
 
     /***
@@ -176,7 +175,7 @@ public class Renderer extends RajawaliRenderer implements OnFPSUpdateListener, O
     public void zoomIn()
     {
         mPokemon.mObject.setScale(mPokemon.mObject.getScaleX() + .005f);
-        MD3Logger.LogInfo("Renderer", "zoomIn", "");
+        MD3Logger.LogInfo(TAG, "zoomIn", "");
     }
 
     /***
@@ -185,7 +184,7 @@ public class Renderer extends RajawaliRenderer implements OnFPSUpdateListener, O
     public void zoomOut()
     {
         mPokemon.mObject.setScale(mPokemon.mObject.getScaleX() - .005f);
-        MD3Logger.LogInfo("Renderer", "zoomOut", "");
+        MD3Logger.LogInfo(TAG, "zoomOut", "");
     }
 
     /***

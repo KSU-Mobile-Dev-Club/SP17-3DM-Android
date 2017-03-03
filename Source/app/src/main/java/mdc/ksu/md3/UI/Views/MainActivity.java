@@ -1,4 +1,4 @@
-package mdc.ksu.md3.UI;
+package mdc.ksu.md3.UI.Views;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import mdc.ksu.md3.Enums.eAnimations;
 import mdc.ksu.md3.Enums.ePokemon;
 import mdc.ksu.md3.R;
+import mdc.ksu.md3.UI.Renderer;
 import mdc.ksu.md3.Utils.MD3Logger;
 
 public class MainActivity extends AppCompatActivity

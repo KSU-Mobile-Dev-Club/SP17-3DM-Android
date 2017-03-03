@@ -1,4 +1,4 @@
-package mdc.ksu.md3.UI;
+package mdc.ksu.md3.UI.Views;
 
 import android.content.Context;
 import android.content.Intent;
