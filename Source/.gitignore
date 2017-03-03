@@ -1,5 +1,6 @@
 ### Github Android.gitignore ### 
-
+# Skip file holding private keys
+keys.xml
 # Built application files
 *.apk
 *.ap_
