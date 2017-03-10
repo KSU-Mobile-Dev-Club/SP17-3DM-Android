@@ -52,31 +52,24 @@ public class LoginActivity extends AppCompatActivity
 
     private void parseSignIn()
     {
-        if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser()))
-        {
-            startMainActivity();
-        }
-        else
-        {
-            String lUsername = mUserName.getText().toString();
-            String lPassword = mPassword.getText().toString();
-            ParseUser.logInInBackground(lUsername, lPassword,
-                                        new LogInCallback()
+        String lUsername = mUserName.getText().toString();
+        String lPassword = mPassword.getText().toString();
+        ParseUser.logInInBackground(lUsername, lPassword,
+                                    new LogInCallback()
+                                    {
+                                        public void done(ParseUser user, ParseException e)
                                         {
-                                            public void done(ParseUser user, ParseException e)
+                                            if (user != null)
                                             {
-                                                if (user != null)
-                                                {
-                                                    startMainActivity();
-                                                }
-                                                else
-                                                {
-                                                    sendToast("No such user exist, please signup");
-                                                    e.printStackTrace();
-                                                }
+                                                startMainActivity();
                                             }
-                                        });
-        }
+                                     t       else
+                                            {
+                                                sendToast("No such user exist, please signup");
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
     }
 
     private void parseSignUp()

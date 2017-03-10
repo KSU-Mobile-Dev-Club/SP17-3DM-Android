@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity
         public void run()
         {
             //TODO.. switch with ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser() when login is working
-            if (ParseUser.getCurrentUser().isAuthenticated())
+            if (ParseUser.getCurrentUser() != null)
             {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);

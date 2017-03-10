@@ -29,7 +29,6 @@ public class MD3Application extends Application
 
         Parse.initialize(lBuilder.build());
 
-        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
 
         defaultACL.setPublicReadAccess(true);
